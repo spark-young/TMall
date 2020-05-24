@@ -4,6 +4,24 @@
 		<meta charset="utf-8" />
 		<title></title>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 用于background-image改变之后背景色能够自适应改变 -->
+		<script src="js/rgbaster.js"></script>
+		<script>
+			var img = document.getElementById('image');
+			// 或者
+			var img = 'http://example.com/path-to-image.jpg'
+			
+			RGBaster.colors(img, {
+			  success: function(payload) {
+			    // payload.dominant是主色，RGB形式表示
+			    // payload.secondary是次色，RGB形式表示
+			    // payload.palette是调色板，含多个主要颜色，数组
+			    console.log(payload.dominant);
+			    console.log(payload.secondary);
+			    console.log(payload.palette);
+			  }
+			});
+		</script>
 		<link rel="stylesheet" href="css/Login.css" />
 	</head>
 	<body>
@@ -14,11 +32,11 @@
 						<img class="site_icon" src="img/site_icon.png" />
 					</a>
 				</div>
-				<div class="content">
+				<div ref="content_color" class="content">
 					<div id="login-banner-wrap">
 						<div class="inner">
 							<a class="back-click-area" target="_blank" href="https://pages.tmall.com/wow/a/act/tmall/dailygroup/1235/wupr?spm=a2240.7829288.0.0.6a674fe5nwjxwI&pos=1&wh_pid=daily-195847&acm=lb-zebra-153802-761482.1003.2.7878537&scm=1003.2.lb-zebra-153802-761482.ITEM_1589014904543_7878537">							</a>
-								<img src="img/back.jpg" />
+								<img src="https://img.alicdn.com/tfs/TB1nxiqHbj1gK0jSZFOXXc7GpXa-1190-600.jpg" />
 						</div>
 					</div>
 					<div class="login-box-form">
@@ -34,6 +52,25 @@
 				<img class="footer_info" src="img/info.png" />
 			</div>
 		</div>
-		
 	</body>
+	<script>
+		new Vue({
+			el: "#app",
+			data: function(){
+				return {
+				}
+			},
+			created: function(){
+				var self = this;
+				RGBaster.colors("https://img.alicdn.com/tfs/TB1nxiqHbj1gK0jSZFOXXc7GpXa-1190-600.jpg",{
+					paletteSize: 30,
+					exclude: ['rgb(228, 236, 55)','rgb(255,255,255)','rgb(0,0,0)'],
+					success: function(payload){
+						//这里选择次色而非主色，主要是发现次色更接近原网页效果
+						self.$refs.content_color.style.backgroundColor = payload.secondary;
+					}
+				})
+			}
+		});
+	</script>
 </html>

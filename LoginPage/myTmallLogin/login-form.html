@@ -11,7 +11,6 @@
 		<div id="app" v-cloak>
 			<div id="container" class="login-box-loading">
 				<div id="login" class="width-vertical login-label-icon login-view-sms tmall">
-
 					<div class="login-content">
 						<div id="login-input-item" v-if="input_show">
 							<div class="login-blocks">
@@ -38,7 +37,10 @@
 										</label>
 										<div class="input-plain-wrap input-wrap-loginid">
 											<input name="fm-login-id" type="text" class="fm-text" placeholder="会员名/邮箱/手机号" oninvalid="fm-login-id"
-											 tabindex="1" autocomplete="off">
+											 tabindex="1" autocomplete="off" >
+											<!-- <div>
+												 <span v-show="$validation.userid.minlength">不得少于3个字符</span>
+											 </div> -->
 										</div>
 									</div>
 									<div class="fm-field">
