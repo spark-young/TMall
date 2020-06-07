@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 import com.alibaba.fastjson.JSONObject;
 import com.myTmall.mapper.LoginMapper;
 import com.myTmall.service.LoginService;
@@ -23,5 +25,9 @@ public class LoginServiceImpl implements LoginService {
 			case "email": return loginMapper.loginWithEmail(user.getString("email"), user.getString("password")).size()==1?true:false;
 		}
 		return false;
+	}
+	@Override
+	public String qrcodeUUID(){
+		return ""; 
 	}
 }

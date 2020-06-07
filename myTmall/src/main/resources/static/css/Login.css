@@ -1,0 +1,90 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	width: 100%;
+	height: 900px;
+	line-height: 18px;
+}
+.loginpage{
+	display: block;
+	width: 100%;
+	min-width: 1190px;
+	height: 688px;
+}
+.header{
+	display: block;
+	height: 44px;
+	width: 1190px;
+	padding: 22px 0px;
+	/* 这里使得site_icon与back左边界一直对齐 */
+	margin: auto;
+}
+.content{
+	display: block;
+	position: relative;
+	height: 600px;
+	width: 100%;
+	background-color: #e10202;
+	text-align: center;
+}
+.footer{
+	margin-top: 42px;
+	width: 100%;
+	height: 5vh;
+	text-align: center;
+}
+.site_icon{
+	width: 190px;
+	height: 27px;
+	margin-top: 8px;
+	/*padding 上  右  下  左*/
+}
+.footer_info{
+	width: 1190px;
+	margin-top: 3px;
+}
+.login-box-form{
+	display: block;
+	position: absolute;
+	right: 105px;
+	top: 91px;
+	background: white;
+}
+.login-inner-form{
+	display: block;
+}
+.login-content-form{
+	display: block;
+	position: relative;
+}
+/* 图片部分成为链接点击域 */
+.back-click-area{
+	display: block;
+	position: absolute;
+	top: 80px;
+	left: 300px;
+	width: 630px;
+	height: 440px;
+	border: none;
+	outline: none;
+}
+#login-frame{
+	width: 350px;
+	height: 400px;
+	overflow: hidden;
+	border: 0;
+}
+iframe{
+	border-style: inset;
+	border-color: initial;
+	border-image: initial;
+}
+#login-banner-wrap{
+	display: block;
+	width: 100%;
+}
+.inner{
+	margin-bottom: 40px;
+}
