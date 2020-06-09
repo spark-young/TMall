@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
+import java.util.UUID;
 
 import com.alibaba.fastjson.JSONObject;
 import com.myTmall.mapper.LoginMapper;
 import com.myTmall.service.LoginService;
+import com.utils.QrcodePool;
+import com.utils.QrcodeScan;
 
 @Service
 @Transactional
@@ -28,6 +30,60 @@ public class LoginServiceImpl implements LoginService {
 	}
 	@Override
 	public String qrcodeUUID(){
-		return ""; 
+		String uuid = UUID.randomUUID().toString();
+		System.out.println("-----------------"+uuid+"-----------------");
+		QrcodePool.cacheMap.put(uuid, new QrcodeScan());
+		return uuid;
 	}
+	//将uuid登录状态设为true并绑定用户
+	public boolean scan(String uuid,String username){
+		//Qrcode池不存在或为空或没有key为uuid时返回false
+		if(QrcodePool.cacheMap != null && !QrcodePool.cacheMap.isEmpty() && QrcodePool.cacheMap.containsKey(uuid)){
+			QrcodeScan scan =  QrcodePool.cacheMap.get(uuid);
+			scan.scanSuccess();
+			scan.setLoginUser(username);
+			return true;
+		}
+		return false;
+	}
+	//这里获取登录时手机端绑定的uuid和username信息，使用之后需将这个uuid对应的QrcodeScan remove
+	@Override
+	public String loginSuccess(String uuid){
+		if(QrcodePool.cacheMap != null && !QrcodePool.cacheMap.isEmpty()){
+			QrcodeScan scan =  QrcodePool.cacheMap.get(uuid);
+			System.out.println(scan.getLoginUser()+" 成功登录");
+			String username = scan.getLoginUser();
+			QrcodePool.cacheMap.remove(uuid);
+			return username;
+		}
+		return null;
+	}
+	public boolean pool(String uuid){
+		System.out.println(uuid);
+		
+		if(QrcodePool.cacheMap != null && !QrcodePool.cacheMap.isEmpty()){
+			QrcodeScan pool = QrcodePool.cacheMap.get(uuid);
+			new Thread(new ScanCounter(uuid, pool)).start();
+			return pool.getScanStatus();
+		}
+		return false;
+	}
+}
+class ScanCounter implements Runnable{
+
+	private String uuid;
+	private QrcodeScan scan;
+	public ScanCounter(String uuid,QrcodeScan scan){
+		this.uuid = uuid;
+		this.scan = scan;
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		notifyPool(uuid, scan);
+	}
+	public synchronized void notifyPool(String uuid, QrcodeScan scan) {
+        if (scan != null) scan.notifyPool();
+    }
+
 }

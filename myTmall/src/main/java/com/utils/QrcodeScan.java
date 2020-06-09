@@ -3,9 +3,20 @@ package com.utils;
 import java.io.Serializable;
 
 public class QrcodeScan implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2499389707901095668L;
     // uuid对应的qrcode的扫描状态
     private boolean scanFlag = false;
-
+    //qrcode被扫描后绑定的用户名
+    private String loginUser;
+    public String getLoginUser() {
+        return loginUser;
+    }
+    public void setLoginUser(String loginUser) {
+        this.loginUser = loginUser;
+    }
     public boolean IsScan() {
         return scanFlag;
     }

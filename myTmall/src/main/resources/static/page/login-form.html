@@ -557,7 +557,9 @@
 							<div class="master-login-title">手机扫码，安全登录</div>
 							<div class="qrcode-login">
 								<div class="qrcode-img">
-									<div id="qrcodeImage" height="162px" width="162px" style="height: 130px; width: 130px; margin-left: 5px; padding-top: 5px;"></div>
+									<div id="qrcodeImage" height="162px" width="162px" style="height: 130px; width: 130px; margin-left: 5px; padding-top: 5px;">
+										<img id="qrCodeIco" src="../img/tmall.jpg" style="position: absolute;width: 30px; height: 30px; left: 50%; top: 50%;transform: translate(-50%,-50%);" />
+									</div>
 								</div>
 								<div class="qrcode-desc">
 									<i class="icon-scan iconfont">&#xe64c;</i>
@@ -591,7 +593,8 @@
 					userPwd_pwd: "",
 					userSms_number: "",
 					userSms_pwd: "",
-					input_error: ""
+					input_error: "",
+					uuid: ""
 				}
 			},
 			created: function() {
@@ -626,10 +629,10 @@
 						//这里向服务器获取一个uuid，之后会调用qrcodeImg生成一个二维码
 						axios("http://localhost:8080/TMallLogin/qrcodeLogin"
 						).then(res => {
-							var uuid = res.data;
-							console.log("uuid:"+uuid);
+							self.uuid = res.data;
+							console.log("uuid:"+self.uuid);
 							//self.$options.methods.qrcodeImg(uuid);
-							self.qrcodeImg(uuid);
+							self.qrcodeImg(self.uuid);
 						});
 					} else {
 						self.qr_show = false;
@@ -655,13 +658,16 @@
 					var qrcode = new QRCode(document.getElementById("qrcodeImage"),{
 						width: 130,
 						height: 130,
-						colorDark: "#000000",
+						colorDark: "#ff0000",
 						colorLight: "#ffffff",
-						useSVG: true
+						typeNumber: -1,//计算模式
+    					correctLevel: 2,//二维码纠错级别
 					});
-					//qrcode.makeCode("http://"+localStorage.getItem("Ip")+":8080/TMallLogin/scan?uuid="+uuid);出来是公网的IP
+					//qrcode.makeCode("http://"+localStorage.getItem("Ip")+":8080/TMallLogin/qrcode-scan?uuid="+uuid);出来是公网的IP
 					//通过正则取出当前网页的IP，方便内网测试时扫码
-					qrcode.makeCode("http://"+window.location.href.match("[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}")+":8080/TMallLogin/scan?uuid="+uuid);
+					qrcode.makeCode("http://"+window.location.href.match("[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}")+":8080/TMallLogin/qrcode-scan?uuid="+uuid);
+					// attention：这里是内网穿透演示代码，本地执行请使用上面代码
+					//qrcode.makeCode("http://sparkyoung.free.idcfengye.com/TMallLogin/qrcode-scan?uuid="+uuid);
 					self.keepPool(uuid);
 				},
 				//这里是轮询，由于没有使用session，这里递归调用会不断发送ajax请求，是一种短轮询的实现
@@ -671,7 +677,7 @@
 					).then(res => {
 						if(res.data == true){
 							console.log("扫码成功!");
-							parent.location.href = "http://localhost:8080/TMallLogin/login_success";
+							parent.location.href = "http://localhost:8080/TMallLogin/login_success?uuid="+uuid;
 						}
 						else
 							self.keepPool(uuid);
