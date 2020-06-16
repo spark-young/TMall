@@ -1,5 +1,6 @@
 package com.myTmall.service.Impl;
 
+import com.myTmall.mapper.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 import com.alibaba.fastjson.JSONObject;
-import com.myTmall.mapper.LoginMapper;
 import com.myTmall.service.LoginService;
 import com.utils.QrcodePool;
 import com.utils.QrcodeScan;

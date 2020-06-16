@@ -1,0 +1,291 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+#container{
+	padding: 25px 25px 23px;
+}
+@font-face {
+  font-family: 'iconfont';  /* project id 1836142 */
+  src: url('//at.alicdn.com/t/font_1836142_9jf3odvd1au.eot');
+  src: url('//at.alicdn.com/t/font_1836142_9jf3odvd1au.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1836142_9jf3odvd1au.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1836142_9jf3odvd1au.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1836142_9jf3odvd1au.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1836142_9jf3odvd1au.svg#iconfont') format('svg');
+}
+.iconfont {
+	position: absolute;
+	right: 3px;
+	top: -2px;
+    font-family:"iconfont" !important;
+    font-size: 60px;
+    font-style:normal;
+	color: red;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	z-index: 1;
+}
+.icon-computer{
+	font-size: 50px;
+}
+.poptip-arrow{
+	position: absolute;
+	right: 4px;
+	top: 3px;
+	width: 0;
+	height: 0;
+	border: 30px solid;
+	border-color: transparent transparent white white;
+	z-index: 1;
+}
+/* 实现小三角的边框 */
+.poptip-arrow em{
+	position: absolute;
+	top: 0;
+	left: -30px;
+	top: -22px;
+	border: 6px;
+	border-style: solid;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-left-color: #ff9000;
+	border-color: transparent transparent transparent #f3d995;
+	z-index: 6;
+}
+/* 实现小三角覆盖部分 */
+.poptip-arrow span{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -32px;
+	top: -22px;
+	border: 6px;
+	border-style: solid;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-color: transparent transparent transparent #fefcee;
+	z-index: 7;
+}
+.poptip-content{
+	position: absolute;
+	right: 64px;
+	top: 3px;
+	display: block;
+	border: 1px solid #f3d995;
+	background: #fefcee;
+	line-height: 16px;
+	z-index: 2;
+	padding: 5px 10px;
+	color: #fea32b;
+	font-size: 12px;
+	font-weight: 600;
+	z-index: -1;
+}
+.login-blocks{
+	margin-top: 12px;
+	margin-bottom: 20px;
+}
+.password-login-tab-item{
+	text-decoration: none;
+	position: relative;
+	height: 18px;
+	line-height: 5px;
+	font-size: 16px;
+	color: #3c3c3c;
+	font-weight: 700;	
+	margin: 9px 10px 0 0;
+	padding-bottom: 3px;
+	border-bottom: 2px solid;
+	border-color: black;
+}
+.sms-login-tab-item{
+	text-decoration: none;
+	position: relative;
+	height: 18px;
+	line-height: 5px;
+	font-size: 16px;
+	color: #3c3c3c;
+	margin: 9px 10px 0 0;
+	padding-bottom: 3px;
+	border-color: black;
+	font-weight: 700;	
+}
+#login-input-item,#login-password-item{
+	display: block;
+}
+.icon-user{
+	position: absolute;
+	left: 20%;
+	font-size: 24px;
+	color: white;
+}
+.fm-field{
+	width: 100%;
+	position: relative;
+	margin-bottom: 20px;
+	font-size: 14px;
+}
+.fm-btn{
+	width: 100%;
+	position: relative;
+	margin-bottom: 20px;
+	font-size: 14px;
+}
+.fm-button{
+	border-style: none;
+	width: 100%;
+	height: 40px;
+	border-radius: 5px;
+	background-color: #ff0036;
+	font-size: 16px;
+	color: white;
+}
+.fm-label-icon{
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	position: absolute;
+	left: 0px;
+	bottom: 1px;
+	background-color: #ccc;
+}
+.fm-text{
+	width: 242px;
+	border: 1px solid #ccc;
+	height: 40px;
+	outline: none;
+	font-size: 14px;
+	padding-left: 50px;
+}
+.fm-number{
+	width: 172px;
+	padding-left: 120px;
+}
+.login-links{
+	margin-top: 16px;
+	margin-bottom: 0;
+	text-align: right;
+}
+.forgot-password-a-link,.forgot-username-a-link,.password-a-link,.register-a-link{
+	color: #6c6c6c;
+	font-size: 12px;
+	text-decoration: none;
+}
+/* 区号选择框 */
+.native-phone-code-select-wrap{
+	position: absolute;
+    left: 40px;
+    bottom: 0;
+}
+.native-phone-code-select-wrap .native-phone-code-select {
+    /* color: rgba(0,0,0,.0001); */
+    background: url(https://gw.alicdn.com/tfs/TB1.8ugw.T1gK0jSZFrXXcNCXXa-200-200.png);
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: 48px 8px;
+    width: 65px;
+}
+.native-phone-code-select-wrap:before {
+    content: attr(data-code);
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-transform: capitalize;
+    pointer-events: none;
+    line-height: 40px;
+    padding-left: 10px;
+    color: #3c3c3c;
+}
+option{
+	color: black;
+}
+.native-phone-code-select {
+    border: none;
+    outline: 0;
+    padding-left: 10px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    border-bottom: 0;
+    padding-right: 14px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+/* 区号选择框 */
+.send-btn-link{
+	position: absolute;
+	right: 10px;
+	bottom: 0;
+	line-height: 40px;
+	color: #6c6c6c;
+	font-size: 12px;
+    font-size: 12px;
+	text-decoration: none;
+}
+.login-error {
+    border: 1px solid #ff934c;
+    background: #fefcee;
+    margin-bottom: 16px;
+    font-size: 14px;
+    padding: 5px 8px;
+    overflow: hidden;
+}
+.master-login-title {
+    height: 18px;
+    line-height: 18px;
+    font-size: 16px;
+    color: #3c3c3c;
+    margin-top: 9px;
+    padding-bottom: 8px;
+    font-weight: 700;
+}
+.qrcode-login{
+	margin-top: 40px;
+}
+.qrcode-img {
+    position: relative;
+    margin: 20px auto;
+    font-size: 14px;
+    -webkit-box-shadow: 0 0 8px #ddd;
+    box-shadow: 0 0 8px #ddd;
+    opacity: 1;
+    width: 140px;
+    height: 140px;
+}
+.qrcode-desc{
+	display: inline;
+	overflow: hidden;
+}
+.icon-scan{
+	position: relative;
+	float: left;
+	font-size: 40px;
+	margin-left: 60px;;
+}
+.qrcode-other {
+	position: relative;
+	float: left;
+    font-size: 12px;
+	color: #6c6c6c;
+    margin: 0;
+}
+.qrcode-other a{
+	color: #ff0036;
+	text-decoration: none;
+}
+.qrcode-bottom-links{
+	position: relative;
+	float: right;
+}
+/* 防止闪烁可能被覆盖，所以需要提高优先级 */
+[v-cloak]{
+	display: none !important;
+}
+
+
+

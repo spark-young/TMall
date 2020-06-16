@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,
+		minimun-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<script src="../js/vue.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="../js/axios.min.js" type="text/javascript" charset="UTF-8"></script>
+		<link rel="stylesheet" href="../css/qrcode-scan.css">
+		<title></title>
+	</head>
+	<body>
+		<div id="qrcode" class="qrcode">
+			<div id="header">
+				<h1>请输入要登录的账号</h1>
+			</div>
+			<div id="content">
+				<input id="input" v-model="userName" type="text" style="grid-area: number1;" @keyup.enter="sureLogin">
+				<button class="sure_button" type="button" @click="sureLogin" style="grid-area: number2;">确定</button>
+			</div>
+		</div>
+	</body>
+	<script th:inline="javascript">
+		new Vue({
+			el: "#qrcode",
+			data: function(){
+				return {
+					userName: "",
+					uuid: "",
+					curIP: ""
+				}
+			},
+			created: function(){
+				var self = this;
+				self.curIP = window.location.href.match("[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}");
+				self.uuid = '${uuid}';
+			},
+			methods: {
+				sureLogin: function(){
+					var self = this;
+					axios("http://"+self.curIP+":8080/TMallLogin/scan?uuid="+self.uuid+"&username="+self.userName
+					).then(res => {
+						if(res.data)
+							window.location.href = "http://"+self.curIP+":8080/TMallLogin/qrcode-scan-success";
+					});
+					//attention：这里是内网穿透代码，本地执行请使用上面代码
+					// axios("http://sparkyoung.free.idcfengye.com/TMallLogin/scan?uuid="+self.uuid+"&username="+self.userName
+					// ).then(res => {
+					// 	if(res.data)
+					// 		window.location.href = "http://sparkyoung.free.idcfengye.com/TMallLogin/qrcode-scan-success";
+					// });
+				}
+			}
+		});
+	</script>
+</html>

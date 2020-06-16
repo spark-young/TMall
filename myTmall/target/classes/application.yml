@@ -1,0 +1,22 @@
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  freemarker:
+    suffix: .html
+    template-loader-path:
+    - classpath:/static/
+  datasource:
+    druid:
+      url: jdbc:mysql://47.115.112.103:3306/myTmall?useUnicode=true&characterEncoding=utf-8
+      username: Spark
+      password: 123456789
+      initial-size: 5
+      max-active: 200
+      min-idle: 5
+      max-wait: 6000
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  check-config-location: true
