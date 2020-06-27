@@ -2,10 +2,12 @@ package com.myTmall.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.myTmall.entity.User;
 
+@Mapper
 public interface LoginMapper {
 	@Select("select * from myTmall.user where name=#{name} and password=#{password}")
 	public List<User> loginWithName(String name,String password);

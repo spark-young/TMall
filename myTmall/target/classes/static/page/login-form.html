@@ -594,11 +594,13 @@
 					userSms_number: "",
 					userSms_pwd: "",
 					input_error: "",
-					uuid: ""
+					uuid: "",
+                    curIP: ""
 				}
 			},
 			created: function() {
 				var self = this;
+                self.curIP = window.location.href.match("[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}");
 				console.log("create");
 			},
 			methods: {
@@ -672,16 +674,19 @@
 				},
 				//这里是轮询，由于没有使用session，这里递归调用会不断发送ajax请求，是一种短轮询的实现
 				keepPool: function(uuid){
-					var self = this;
-					axios("http://localhost:8080/TMallLogin/pool?uuid="+uuid
-					).then(res => {
-						if(res.data == true){
-							console.log("扫码成功!");
-							parent.location.href = "http://localhost:8080/TMallLogin/login_success?uuid="+uuid;
+				    var self = this;
+					var es = new EventSource("http://"+self.curIP+":8080/TMallLogin/pool?uuid="+uuid);
+					console.log("pool");
+					es.addEventListener("open",function(){
+						console.log("和服务器建立连接");
+					})
+                    //由于服务器端只发送一次，也就是收到message之后就是完成指令，服务器流会关闭，客户端则直接跳转
+					es.addEventListener("message",function(e){
+						console.log("取得数据:"+e.data);
+						if(e.data == "true"){
+							parent.location.href="http://localhost:8080/TMallLogin/login_success?uuid="+self.uuid;
 						}
-						else
-							self.keepPool(uuid);
-					});
+					})
 				},
 				onSubmitPwd: function(){
 					var self = this;
@@ -728,7 +733,7 @@
 					).then(res => {
 						if(res.data == true){
 							console.log("登录成功!");
-							parent.location.href="http://localhost:8080/TMallLogin/login_success";
+							parent.location.href="http://localhost:8080/TMallLogin/login_pwd_success?username="+id;
 						}
 						else{
 							self.input_error = "用户名、手机号或邮箱与密码不匹配";

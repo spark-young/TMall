@@ -17,7 +17,7 @@ public class QrcodeScan implements Serializable {
     public void setLoginUser(String loginUser) {
         this.loginUser = loginUser;
     }
-    public boolean IsScan() {
+    public synchronized boolean IsScan() {
         return scanFlag;
     }
 
@@ -27,8 +27,11 @@ public class QrcodeScan implements Serializable {
     //多线程下持续获取扫描状态
     public synchronized boolean getScanStatus() {
         try {
-            if (!IsScan())
+            if (!IsScan()){
+                System.out.println("阻塞获取状态");
                 this.wait();
+                System.out.println("解除阻塞");
+            }
             //若解锁之后是Scan状态就会返回true，否则此次请求返回false
             if(IsScan()){
                 System.out.println("扫描成功!");

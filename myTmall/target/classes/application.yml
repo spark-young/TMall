@@ -16,6 +16,8 @@ spring:
       max-active: 200
       min-idle: 5
       max-wait: 6000
+  webflux:
+    static-path-pattern: /static/
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
