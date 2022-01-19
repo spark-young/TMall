@@ -1,17 +1,16 @@
 package com.myTmall.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.myTmall.service.LoginService;
+import org.springframework.web.method.support.ModelAndViewContainer;
+import org.springframework.web.reactive.result.view.freemarker.FreeMarkerView;
+import org.springframework.web.servlet.ModelAndView;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/TMallLogin")
@@ -20,10 +19,12 @@ public class LoginController {
 	private LoginService loginService;
 	//直接映射到login.html
 	@GetMapping
+	@ResponseBody
 	public ModelAndView loginning(){
 		ModelAndView view = new ModelAndView("/page/login");
 		return view;
 	}
+	//扫码成功后跳转
 	@CrossOrigin
 	@RequestMapping("/login_success")
 	public ModelAndView loginSuccess(@RequestParam("uuid")String uuid){
@@ -46,7 +47,7 @@ public class LoginController {
 	//PC端轮询中访问的路径，获取指定uuid是否被扫描
 	@CrossOrigin
 	@RequestMapping("/pool")
-	public boolean pool(@RequestParam("uuid") String uuid){
+	public Flux<ServerSentEvent<String>> pool(@RequestParam("uuid") String uuid){
 		return loginService.pool(uuid);
 	}
 	@CrossOrigin
@@ -67,6 +68,13 @@ public class LoginController {
 	@PostMapping
 	public boolean login(@RequestBody JSONObject user) {
 		return loginService.login(user);
+	}
+	@CrossOrigin
+	@RequestMapping("login_pwd_success")
+	public ModelAndView loginPwdSuccess(@RequestParam("username") String username){
+		ModelAndView view =  new ModelAndView("page/login-success");
+		view.addObject("username", username);
+		return view;
 	}
 }
 
